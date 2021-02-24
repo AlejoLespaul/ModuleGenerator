@@ -1,7 +1,12 @@
 {
     "autoload": {
         "psr-4": {
-            "Test\\": "packages/ModuleGenerator/test/files/modules/Test/"
+            "Test\\": "packages/ModuleGenerator/test/files/modules/Test/",
+            "User\\Test\\": "packages/ModuleGenerator/test/files/modules/User/Test/",
+            "Group\\User\\Test\\": "packages/ModuleGenerator/test/files/modules/Group/User/Test/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": []
     }
 }

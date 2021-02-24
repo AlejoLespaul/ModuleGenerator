@@ -38,8 +38,13 @@ class ModuleProviderCreateCommand extends ProviderMakeCommand
     protected function getPath($name)
     {
         $module = $this->option("module");
-        $path = config("module_generator.workdir") . "modules/". $module . "/Providers/". $name . ".php";
+        $path = config("module_generator.workdir") . "modules/". $this->getModuleFolder($module) . "/Providers/". $name . ".php";
+
         return $path;
+    }
+
+    private function getModuleFolder($module){
+        return $module;
     }
 
     /**
@@ -56,7 +61,11 @@ class ModuleProviderCreateCommand extends ProviderMakeCommand
     protected function getNamespace($name)
     {
         $module = $this->option("module");
-        return $module . "\\Providers";
+        return $this->getNamespaceForModule($module) . "\\Providers";
+    }
+
+    private function getNamespaceForModule($module) {
+        return str_replace("/", "\\", $module);
     }
 
     /**

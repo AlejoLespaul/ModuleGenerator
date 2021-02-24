@@ -76,8 +76,13 @@ class ModuleCreateCommand extends Command
     }
 
     private function addModuleToContent($module, $content) {
-        $content["autoload"]["psr-4"][$module . "\\"] = $this->getPathForModule($module) . "/";
+        $content["autoload"]["psr-4"][$this->getNameSpace($module)] = $this->getPathForModule($module) . "/";
         return $content;
+    }
+
+    private function getNameSpace($module){
+
+        return str_replace("/", "\\", $module) . "\\";
     }
 
     private function makeDirectory($module) {
@@ -92,12 +97,16 @@ class ModuleCreateCommand extends Command
     }
 
     private function makeProvider($module){
-        $nameProvider = $module . "Provider";
+        $nameProvider = $this->getNameProvider($module);
 
         $this->call('module:provider', [
             'name' => $nameProvider,
             '--module' => $module,
         ]);
+    }
+
+    private function getNameProvider($module) {
+        return (strrpos($module, "/") ? substr($module, strrpos($module, "/") +1 ) : $module) . "Provider";
     }
 
     private function makeRoutesFile($module){

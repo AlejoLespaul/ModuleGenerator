@@ -78,6 +78,34 @@ class CreateModuleTest extends TestCase
 
     }
 
+    /**
+     * @test
+     */
+    public function it_can_create_a_module_with_sub_folders()
+    {
+        $this->artisan("module:make", [
+            "name" => "User/Test"
+        ]);
+
+        $this->assertStringContainsString("User\\\\Test\\\\", file_get_contents($this->workdir."/composer.json"));
+        $this->assertFileExists($this->workdir . "/modules/User/Test/Providers/TestProvider.php");
+        $this->assertStringContainsString("namespace User\Test\Providers", file_get_contents($this->workdir . "/modules/User/Test/Providers/TestProvider.php"));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_create_a_module_with_many_sub_folders()
+    {
+        $this->artisan("module:make", [
+            "name" => "Group/User/Test"
+        ]);
+
+        $this->assertStringContainsString("Group\\\\User\\\\Test\\\\", file_get_contents($this->workdir."/composer.json"));
+        $this->assertFileExists($this->workdir . "/modules/Group/User/Test/Providers/TestProvider.php");
+        $this->assertStringContainsString("namespace Group\User\Test\Providers", file_get_contents($this->workdir . "/modules/Group/User/Test/Providers/TestProvider.php"));
+    }
+
     public function deleteDir($dirPath) {
         if (! is_dir($dirPath)) {
             throw new Exception("$dirPath must be a directory");
