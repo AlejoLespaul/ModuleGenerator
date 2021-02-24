@@ -5,6 +5,7 @@ namespace ModuleGenerator\Providers;
 use ModuleGenerator\Commands\ModuleProviderCreateCommand;
 use Illuminate\Support\ServiceProvider;
 use ModuleGenerator\Commands\ModuleCreateCommand;
+use ModuleGenerator\Commands\ModuleRouteCommand;
 
 class ModuleGeneratorProvider extends ServiceProvider
 {
@@ -30,7 +31,8 @@ class ModuleGeneratorProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 ModuleCreateCommand::class,
-                ModuleProviderCreateCommand::class
+                ModuleProviderCreateCommand::class,
+                ModuleRouteCommand::class
             ]);
         }
     }

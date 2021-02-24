@@ -1,10 +1,10 @@
 <?php
 
-namespace Test\Providers;
+namespace DummyNamespace;
 
 use Illuminate\Support\ServiceProvider;
 
-class TestProvider extends ServiceProvider
+class DummyClass extends ServiceProvider
 {
     /**
      * Register services.
@@ -13,7 +13,7 @@ class TestProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->loadRoutesFrom(__DIR__ . "/../routes.php");
     }
 
     /**

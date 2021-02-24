@@ -58,4 +58,18 @@ class ModuleProviderCreateCommand extends ProviderMakeCommand
         $module = $this->option("module");
         return $module . "\\Providers";
     }
+
+    /**
+     * Get the stub file for the generator.
+     *
+     * @return string
+     */
+    protected function getStub()
+    {
+        $relativePath = '/stubs/provider.stub';
+
+        return file_exists($customPath = $this->laravel->basePath(trim($relativePath, '/')))
+            ? $customPath
+            : __DIR__.$relativePath;
+    }
 }

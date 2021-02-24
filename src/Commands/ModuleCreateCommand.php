@@ -50,6 +50,7 @@ class ModuleCreateCommand extends Command
     {
         $name = $this->argument("name");
         $this->makeDirectory($name);
+        $this->makeRoutesFile($name);
         $this->makeProvider($name);
         $this->registerInComposer($name);
         $this->info("Module $name Created");
@@ -95,6 +96,13 @@ class ModuleCreateCommand extends Command
 
         $this->call('module:provider', [
             'name' => $nameProvider,
+            '--module' => $module,
+        ]);
+    }
+
+    private function makeRoutesFile($module){
+        $this->call('module:routes', [
+            'name' => "routes",
             '--module' => $module,
         ]);
     }
