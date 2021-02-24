@@ -72,7 +72,9 @@ class CreateModuleTest extends TestCase
 
         $this->assertFileExists($this->workdir . "/modules/Test/routes.php");
         $this->assertStringContainsString("routes.php", file_get_contents($this->workdir . "/modules/Test/Providers/TestProvider.php"));
-        $this->assertStringContainsString("Hello test", file_get_contents($this->workdir . "/modules/Test/routes.php"));
+        $this->assertStringContainsString("Hello Test", file_get_contents($this->workdir . "/modules/Test/routes.php"));
+        $this->assertStringContainsString("Test Routes", file_get_contents($this->workdir . "/modules/Test/routes.php"));
+        $this->assertStringContainsString("/test", file_get_contents($this->workdir . "/modules/Test/routes.php"));
 
     }
 

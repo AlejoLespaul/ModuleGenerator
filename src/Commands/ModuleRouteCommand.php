@@ -80,6 +80,6 @@ class ModuleRouteCommand extends GeneratorCommand
     }
 
     private function replaceModuleName($stub, $module){
-        return str_replace("{module}", strtolower($module), $stub);
+        return str_replace(["{module}", "{route}"], [$module, strtolower($module)], $stub);
     }
 }
