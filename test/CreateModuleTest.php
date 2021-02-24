@@ -24,7 +24,7 @@ class CreateModuleTest extends TestCase
      */
     public function it_can_create_a_module()
     {
-        $this->artisan("make:module", [
+        $this->artisan("module:make", [
             "name" => "Test"
         ])->expectsOutput("Module Test Created")
         ->expectsOutput("Add provider in config/app.php: ")
@@ -41,7 +41,7 @@ class CreateModuleTest extends TestCase
      */
     public function it_create_a_provider()
     {
-        $this->artisan("make:module", [
+        $this->artisan("module:make", [
             "name" => "Test"
         ]);
 
@@ -53,7 +53,7 @@ class CreateModuleTest extends TestCase
      */
     public function it_can_register_a_new_module_in_composer_json()
     {
-        $this->artisan("make:module", [
+        $this->artisan("module:make", [
             "name" => "Test"
         ]);
 
