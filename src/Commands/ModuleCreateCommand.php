@@ -56,12 +56,21 @@ class ModuleCreateCommand extends Command
         $this->info("Module $name Created");
         $this->info("Add provider in config/app.php: ");
 
+        $providerClass = $this->getProviderClass($name);
+
         $this->info("'providers' => [
             ...
-            {$name}\Providers\\{$name}Provider::class,
+            {$providerClass}
         ];");
 
         return 0;
+    }
+
+    private function getProviderClass($name) {
+        $namespaceModule = str_replace("/", "\\", $name);
+        $nameClass = (strrpos($name, "/")?substr($name, strrpos($name, "/") + 1) : $name);
+
+        return "{$namespaceModule}\Providers\\{$nameClass}Provider::class";
     }
 
     private function registerInComposer($module) {
