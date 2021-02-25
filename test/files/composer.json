@@ -7,6 +7,9 @@
         }
     },
     "autoload-dev": {
-        "psr-4": []
+        "psr-4": {
+            "Test\\Tests": "packages/ModuleGenerator/test/files/modules/Test/tests/",
+            "Test\\Tests\\": "packages/ModuleGenerator/test/files/modules/Test/tests/"
+        }
     }
 }

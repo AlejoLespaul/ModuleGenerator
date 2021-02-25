@@ -22,16 +22,6 @@ class ModuleRouteCommand extends GeneratorCommand
     protected $description = 'Create routes file for module';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct(Filesystem $filesystem)
-    {
-        parent::__construct($filesystem);
-    }
-
-    /**
      * Get the stub file for the generator.
      *
      * @return string
@@ -81,5 +71,23 @@ class ModuleRouteCommand extends GeneratorCommand
 
     private function replaceModuleName($stub, $module){
         return str_replace(["{module}", "{route}"], [$module, strtolower($module)], $stub);
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function handle()
+    {
+        parent::handle();
+        $name = $this->argument('name');
+        $this->info("File {$name}.php created");
+        $this->info("Add routes in boot module provider method, e.g.: ");
+        $this->info('public function boot()
+        {
+            ...
+            $this->loadRoutesFrom(__DIR__.\'/../{$name}.php\');
+        }');
     }
 }

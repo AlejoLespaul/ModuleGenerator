@@ -6,7 +6,7 @@ use Illuminate\Foundation\Console\ProviderMakeCommand;
 use Laminas\Code\Generator\FileGenerator;
 use Laminas\Code\Generator\ValueGenerator;
 
-class ModuleProviderCreateCommand extends ProviderMakeCommand
+class ModuleProviderCommand extends ProviderMakeCommand
 {
 
     /**
@@ -69,16 +69,29 @@ class ModuleProviderCreateCommand extends ProviderMakeCommand
     }
 
     /**
-     * Get the stub file for the generator.
+     * Execute the console command.
      *
-     * @return string
+     * @return int
      */
-    protected function getStub()
+    public function handle()
     {
-        $relativePath = '/stubs/provider.stub';
+        parent::handle();
 
-        return file_exists($customPath = $this->laravel->basePath(trim($relativePath, '/')))
-            ? $customPath
-            : __DIR__.$relativePath;
+        $providerClass = $this->getProviderClass();
+        $this->info("Add provider in config/app.php: ");
+        $this->info("'providers' => [
+            ...
+            {$providerClass}
+        ];");
+
+    }
+
+    private function getProviderClass() {
+        $module = $this->option("module");
+        $name = $this->argument("name");
+
+        $namespaceModule = $this->getNamespaceForModule($module);
+
+        return "{$namespaceModule}\Providers\\{$name}::class";
     }
 }

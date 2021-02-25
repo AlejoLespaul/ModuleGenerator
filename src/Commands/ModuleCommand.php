@@ -7,7 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Laminas\Config\Reader\Json as JsonReader;
 use Laminas\Config\Writer\Json as JsonWritter;
 
-class ModuleCreateCommand extends Command
+class ModuleCommand extends Command
 {
     /**
      * @var Filesystem
@@ -27,8 +27,6 @@ class ModuleCreateCommand extends Command
      */
     protected $description = 'Create Module';
 
-    protected $workdir;
-
     /**
      * Create a new command instance.
      *
@@ -38,7 +36,7 @@ class ModuleCreateCommand extends Command
     {
         parent::__construct();
         $this->files = $files;
-        $this->workdir = config("module_generator.workdir", __DIR__ . "/../../test/files/");
+        $this->workdir = config("module_generator.workdir");
     }
 
     /**
@@ -50,28 +48,13 @@ class ModuleCreateCommand extends Command
     {
         $name = $this->argument("name");
         $this->makeDirectory($name);
-        $this->makeRoutesFile($name);
         $this->makeProvider($name);
         $this->registerInComposer($name);
         $this->info("Module $name Created");
-        $this->info("Add provider in config/app.php: ");
-
-        $providerClass = $this->getProviderClass($name);
-
-        $this->info("'providers' => [
-            ...
-            {$providerClass}
-        ];");
 
         return 0;
     }
 
-    private function getProviderClass($name) {
-        $namespaceModule = str_replace("/", "\\", $name);
-        $nameClass = (strrpos($name, "/")?substr($name, strrpos($name, "/") + 1) : $name);
-
-        return "{$namespaceModule}\Providers\\{$nameClass}Provider::class";
-    }
 
     private function registerInComposer($module) {
         $pathFile = $this->workdir . "composer.json";
@@ -116,13 +99,6 @@ class ModuleCreateCommand extends Command
 
     private function getNameProvider($module) {
         return (strrpos($module, "/") ? substr($module, strrpos($module, "/") +1 ) : $module) . "Provider";
-    }
-
-    private function makeRoutesFile($module){
-        $this->call('module:routes', [
-            'name' => "routes",
-            '--module' => $module,
-        ]);
     }
 
 }

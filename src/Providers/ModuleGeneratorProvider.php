@@ -2,10 +2,11 @@
 
 namespace ModuleGenerator\Providers;
 
-use ModuleGenerator\Commands\ModuleProviderCreateCommand;
 use Illuminate\Support\ServiceProvider;
-use ModuleGenerator\Commands\ModuleCreateCommand;
+use ModuleGenerator\Commands\ModuleCommand;
+use ModuleGenerator\Commands\ModuleProviderCommand;
 use ModuleGenerator\Commands\ModuleRouteCommand;
+use ModuleGenerator\Commands\ModuleTestCommand;
 
 class ModuleGeneratorProvider extends ServiceProvider
 {
@@ -30,9 +31,10 @@ class ModuleGeneratorProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                ModuleCreateCommand::class,
-                ModuleProviderCreateCommand::class,
-                ModuleRouteCommand::class
+                ModuleCommand::class,
+                ModuleProviderCommand::class,
+                ModuleRouteCommand::class,
+                ModuleTestCommand::class
             ]);
         }
     }
