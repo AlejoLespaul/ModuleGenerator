@@ -12,7 +12,7 @@ class ModuleRouteCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'module:routes {name} {--module}';
+    protected $signature = 'module:routes {name} {--module=}';
 
     /**
      * The console command description.
