@@ -12,7 +12,7 @@ class ModuleRouteCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'module:routes {name} {--module=}';
+    protected $signature = 'module:routes {name} {--module}';
 
     /**
      * The console command description.
@@ -83,11 +83,11 @@ class ModuleRouteCommand extends GeneratorCommand
         parent::handle();
         $name = $this->argument('name');
         $this->info("File {$name}.php created");
-        $this->info("Add routes in boot module provider method, e.g.: ");
-        $this->info('public function boot()
+        $this->comment("Add routes in boot module provider method, e.g.: ");
+        $this->comment("public function boot()
         {
-            ...
-            $this->loadRoutesFrom(__DIR__.\'/../{$name}.php\');
-        }');
+            ...".
+            '$this->loadRoutesFrom(__DIR__.\'/../'.$name.".php\');
+        }");
     }
 }

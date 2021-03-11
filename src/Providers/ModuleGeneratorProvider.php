@@ -4,6 +4,8 @@ namespace ModuleGenerator\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use ModuleGenerator\Commands\ModuleCommand;
+use ModuleGenerator\Commands\ModuleControllerCommand;
+use ModuleGenerator\Commands\ModuleModelCommand;
 use ModuleGenerator\Commands\ModuleProviderCommand;
 use ModuleGenerator\Commands\ModuleRouteCommand;
 use ModuleGenerator\Commands\ModuleTestCommand;
@@ -34,7 +36,9 @@ class ModuleGeneratorProvider extends ServiceProvider
                 ModuleCommand::class,
                 ModuleProviderCommand::class,
                 ModuleRouteCommand::class,
-                ModuleTestCommand::class
+                ModuleTestCommand::class,
+                ModuleControllerCommand::class,
+                ModuleModelCommand::class
             ]);
         }
     }

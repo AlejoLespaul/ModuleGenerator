@@ -50,7 +50,7 @@ class ModuleCommand extends Command
         $this->makeDirectory($name);
         $this->makeProvider($name);
         $this->registerInComposer($name);
-        $this->info("Module $name Created");
+        $this->info("Module {$name} Created");
 
         return 0;
     }
