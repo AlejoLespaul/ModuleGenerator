@@ -4,7 +4,7 @@ namespace ModuleGenerator\Test;
 
 use Tests\TestCase;
 
-class ModuleTestCommandTest extends TestCase
+class MakeTestForModuleTest extends TestCase
 {
     private $workdir = __DIR__ . "/files";
 
@@ -13,7 +13,8 @@ class ModuleTestCommandTest extends TestCase
      */
     public function tearDown() : void {
         $utils = new TestUtils();
-        $utils->deleteDir($this->workdir . "/modules");
+        if(file_exists($this->workdir . "/modules"))
+            $utils->deleteDir($this->workdir . "/modules");
     }
 
     /**

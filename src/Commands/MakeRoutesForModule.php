@@ -4,15 +4,18 @@ namespace ModuleGenerator\Commands;
 
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Filesystem\Filesystem;
+use Symfony\Component\Console\Input\InputOption;
 
-class ModuleRouteCommand extends GeneratorCommand
+class MakeRoutesForModule extends GeneratorCommand
 {
+    use AssertModuleOptions;
+
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'module:routes {name} {--module}';
+    protected $name = 'module:routes';
 
     /**
      * The console command description.
@@ -32,21 +35,21 @@ class ModuleRouteCommand extends GeneratorCommand
 
         return file_exists($customPath = $this->laravel->basePath(trim($relativePath, '/')))
             ? $customPath
-            : __DIR__.$relativePath;
+            : __DIR__ . $relativePath;
     }
 
     protected function getPath($name)
     {
         $fileName = $this->argument('name');
         $module = $this->option("module");
-        $path = config("module_generator.workdir") . "modules/". $module . "/{$fileName}.php";
+        $path = config("module_generator.workdir") . "modules/" . $module . "/{$fileName}.php";
         return $path;
     }
 
     /**
      * Parse the class name and format according to the root namespace.
      *
-     * @param  string  $name
+     * @param string $name
      * @return string
      */
     protected function qualifyClass($name)
@@ -57,7 +60,7 @@ class ModuleRouteCommand extends GeneratorCommand
     /**
      * Build the class with the given name.
      *
-     * @param  string  $name
+     * @param string $name
      * @return string
      *
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
@@ -69,7 +72,8 @@ class ModuleRouteCommand extends GeneratorCommand
         return $this->replaceModuleName($stub, $module);
     }
 
-    private function replaceModuleName($stub, $module){
+    private function replaceModuleName($stub, $module)
+    {
         return str_replace(["{module}", "{route}"], [$module, strtolower($module)], $stub);
     }
 
@@ -80,14 +84,32 @@ class ModuleRouteCommand extends GeneratorCommand
      */
     public function handle()
     {
-        parent::handle();
-        $name = $this->argument('name');
-        $this->info("File {$name}.php created");
-        $this->comment("Add routes in boot module provider method, e.g.: ");
-        $this->comment("public function boot()
-        {
-            ...".
-            '$this->loadRoutesFrom(__DIR__.\'/../'.$name.".php\');
-        }");
+        try{
+            $this->assertModuleOptionExists();
+
+            parent::handle();
+            $name = $this->argument('name');
+            $this->info("File {$name}.php created");
+            $this->comment("Add routes in boot module provider method, e.g.: ");
+            $this->comment("public function boot()");
+            $this->comment("{" . PHP_EOL .
+                "\t..." . PHP_EOL .
+                "\t" . '$this->loadRoutesFrom(__DIR__.\'/../' . $name . ".php');" . PHP_EOL .
+                "}");
+        }catch (\Exception $e){
+            $this->comment($e->getMessage());
+        }
+
     }
+
+
+
+    protected function getOptions()
+    {
+        return [
+            ['--module', 'M', InputOption::VALUE_REQUIRED, 'Module to create the component.'],
+        ];
+    }
+
+
 }

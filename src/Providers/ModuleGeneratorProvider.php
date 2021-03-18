@@ -3,12 +3,12 @@
 namespace ModuleGenerator\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use ModuleGenerator\Commands\ModuleCommand;
-use ModuleGenerator\Commands\ModuleControllerCommand;
-use ModuleGenerator\Commands\ModuleModelCommand;
-use ModuleGenerator\Commands\ModuleProviderCommand;
-use ModuleGenerator\Commands\ModuleRouteCommand;
-use ModuleGenerator\Commands\ModuleTestCommand;
+use ModuleGenerator\Commands\AddModule;
+use ModuleGenerator\Commands\MakeControllerForModule;
+use ModuleGenerator\Commands\MakeModelForModule;
+use ModuleGenerator\Commands\MakeProviderForModule;
+use ModuleGenerator\Commands\MakeRoutesForModule;
+use ModuleGenerator\Commands\MakeTestForModule;
 
 class ModuleGeneratorProvider extends ServiceProvider
 {
@@ -33,12 +33,12 @@ class ModuleGeneratorProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                ModuleCommand::class,
-                ModuleProviderCommand::class,
-                ModuleRouteCommand::class,
-                ModuleTestCommand::class,
-                ModuleControllerCommand::class,
-                ModuleModelCommand::class
+                AddModule::class,
+                MakeProviderForModule::class,
+                MakeRoutesForModule::class,
+                MakeTestForModule::class,
+                MakeControllerForModule::class,
+                MakeModelForModule::class
             ]);
         }
     }

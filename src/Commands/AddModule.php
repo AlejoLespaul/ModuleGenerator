@@ -6,8 +6,9 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Laminas\Config\Reader\Json as JsonReader;
 use Laminas\Config\Writer\Json as JsonWritter;
+use Symfony\Component\Console\Input\InputArgument;
 
-class ModuleCommand extends Command
+class AddModule extends Command
 {
     /**
      * @var Filesystem
@@ -18,7 +19,7 @@ class ModuleCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'module:make {name}';
+    protected $name = 'module:add';
 
     /**
      * The console command description.
@@ -101,4 +102,15 @@ class ModuleCommand extends Command
         return (strrpos($module, "/") ? substr($module, strrpos($module, "/") +1 ) : $module) . "Provider";
     }
 
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return [
+            ['name', InputArgument::REQUIRED, 'The name of the module'],
+        ];
+    }
 }

@@ -6,8 +6,9 @@ use Illuminate\Routing\Console\ControllerMakeCommand;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class ModuleControllerCommand extends ControllerMakeCommand
+class MakeControllerForModule extends ControllerMakeCommand
 {
+    use AssertModuleOptions;
     /**
      * The name and signature of the console command.
      *
@@ -29,19 +30,21 @@ class ModuleControllerCommand extends ControllerMakeCommand
      */
     public function handle()
     {
-        parent::handle();
-        $name = $this->argument('name');
+        try{
+            $this->assertModuleOptionExists();
+            parent::handle();
+            $name = $this->argument('name');
+            $this->info("{$name} created");
+        }catch (\Exception $e){
+            $this->comment($e->getMessage());
+        }
 
-        $this->info("{$name} created");
     }
-
-
-
 
     protected function getOptions()
     {
         return array_merge(parent::getOptions(), [
-            ['--module', 'M', InputOption::VALUE_REQUIRED, 'Module.'],
+            ['--module', 'M', InputOption::VALUE_REQUIRED, 'Module to create the component.'],
         ]);
     }
 

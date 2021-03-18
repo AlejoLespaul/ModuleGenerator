@@ -4,9 +4,10 @@ namespace ModuleGenerator\Test;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use ModuleGenerator\Commands\Constants;
 use Tests\TestCase;
 
-class ModuleControllerTest extends TestCase
+class MakeControllerForModuleTest extends TestCase
 {
     private $workdir = __DIR__ . "/files";
 
@@ -15,7 +16,8 @@ class ModuleControllerTest extends TestCase
      */
     public function tearDown() : void {
         $utils = new TestUtils();
-        $utils->deleteDir($this->workdir . "/modules");
+        if(file_exists($this->workdir . "/modules"))
+            $utils->deleteDir($this->workdir . "/modules");
     }
 
 
@@ -41,6 +43,21 @@ class ModuleControllerTest extends TestCase
         ])->expectsOutput("TestController created");
 
         $this->assertFileExists($this->workdir . "/modules/Test/Auth/Controller/TestController.php");
+    }
+
+    /**
+     * A basic feature test example.
+     * @test
+     * @return void
+     *
+     */
+    public function module_option_is_required()
+    {
+        $this->artisan("module:controller",[
+            "name" => "TestController",
+        ])->expectsOutput(Constants::MODULE_OPTION_REQUIRED);
+
+        $this->assertFileDoesNotExist($this->workdir . "/modules/Controller/TestController.php");
     }
 
 

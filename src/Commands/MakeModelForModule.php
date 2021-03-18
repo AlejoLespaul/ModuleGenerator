@@ -6,8 +6,9 @@ use Illuminate\Foundation\Console\ModelMakeCommand;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class ModuleModelCommand extends ModelMakeCommand
+class MakeModelForModule extends ModelMakeCommand
 {
+    use AssertModuleOptions;
     /**
      * The name and signature of the console command.
      *
@@ -30,9 +31,14 @@ class ModuleModelCommand extends ModelMakeCommand
      */
     public function handle()
     {
-        parent::handle();
-        $name = $this->argument("name");
-        $this->info("{$name} model created");
+        try {
+            $this->assertModuleOptionExists();
+            parent::handle();
+            $name = $this->argument("name");
+            $this->info("{$name} model created");
+        }catch (\Exception $e){
+            $this->comment($e->getMessage());
+        }
     }
 
     protected function buildClass($name)
@@ -45,7 +51,7 @@ class ModuleModelCommand extends ModelMakeCommand
     protected function getOptions()
     {
         return array_merge(parent::getOptions(), [
-            ['--module', 'M', InputOption::VALUE_REQUIRED, 'Module.'],
+            ['--module', 'M', InputOption::VALUE_REQUIRED, 'Module to create the component.'],
         ]);
     }
 

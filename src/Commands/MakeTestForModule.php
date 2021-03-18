@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 use Laminas\Config\Reader\Json as JsonReader;
 use Laminas\Config\Writer\Json as JsonWritter;
-class ModuleTestCommand extends TestMakeCommand
+class MakeTestForModule extends TestMakeCommand
 {
     /**
      * The name and signature of the console command.
@@ -53,10 +53,9 @@ class ModuleTestCommand extends TestMakeCommand
      */
     protected function getOptions()
     {
-        return [
-            ['--unit', 'u', InputOption::VALUE_NONE, 'Create a unit test.'],
-            ['--module', 'm', InputOption::VALUE_REQUIRED, 'Create a unit test.'],
-        ];
+        return array_merge( parent::getOptions(), [
+            ['--module', 'M', InputOption::VALUE_REQUIRED, 'Create a unit test.'],
+        ]);
     }
 
     /**

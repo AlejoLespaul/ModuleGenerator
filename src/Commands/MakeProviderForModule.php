@@ -5,16 +5,19 @@ namespace ModuleGenerator\Commands;
 use Illuminate\Foundation\Console\ProviderMakeCommand;
 use Laminas\Code\Generator\FileGenerator;
 use Laminas\Code\Generator\ValueGenerator;
+use Symfony\Component\Console\Input\InputOption;
 
-class ModuleProviderCommand extends ProviderMakeCommand
+class MakeProviderForModule extends ProviderMakeCommand
 {
+
+    use AssertModuleOptions;
 
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'module:provider {name} {--module=}';
+    protected $name = 'module:provider';
 
     /**
      * The console command description.
@@ -26,31 +29,32 @@ class ModuleProviderCommand extends ProviderMakeCommand
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param string $rootNamespace
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)
     {
         $module = $this->option("module");
-        return $module.'\Providers';
+        return $module . '\Provider';
     }
 
     protected function getPath($name)
     {
         $module = $this->option("module");
-        $path = config("module_generator.workdir") . "modules/". $this->getModuleFolder($module) . "/Providers/". $name . ".php";
+        $path = config("module_generator.workdir") . "modules/" . $this->getModuleFolder($module) . "/Provider/" . $name . ".php";
 
         return $path;
     }
 
-    private function getModuleFolder($module){
+    private function getModuleFolder($module)
+    {
         return $module;
     }
 
     /**
      * Parse the class name and format according to the root namespace.
      *
-     * @param  string  $name
+     * @param string $name
      * @return string
      */
     protected function qualifyClass($name)
@@ -61,10 +65,11 @@ class ModuleProviderCommand extends ProviderMakeCommand
     protected function getNamespace($name)
     {
         $module = $this->option("module");
-        return $this->getNamespaceForModule($module) . "\\Providers";
+        return $this->getNamespaceForModule($module) . "\\Provider";
     }
 
-    private function getNamespaceForModule($module) {
+    private function getNamespaceForModule($module)
+    {
         return str_replace("/", "\\", $module);
     }
 
@@ -75,23 +80,38 @@ class ModuleProviderCommand extends ProviderMakeCommand
      */
     public function handle()
     {
-        parent::handle();
+        try {
+            $this->assertModuleOptionExists();
 
-        $providerClass = $this->getProviderClass();
-        $this->info("Add provider in config/app.php: ");
-        $this->info("'providers' => [
+            parent::handle();
+
+            $providerClass = $this->getProviderClass();
+            $this->info("Provider Created");
+            $this->comment("Add provider in config/app.php: ");
+            $this->comment("'providers' => [
             ...
             {$providerClass}
         ];");
+        } catch (\Exception $e) {
+            $this->comment($e->getMessage());
+        }
 
     }
 
-    private function getProviderClass() {
+    private function getProviderClass()
+    {
         $module = $this->option("module");
         $name = $this->argument("name");
 
         $namespaceModule = $this->getNamespaceForModule($module);
 
-        return "{$namespaceModule}\Providers\\{$name}::class";
+        return "{$namespaceModule}\Provider\\{$name}::class";
+    }
+
+    protected function getOptions()
+    {
+        return [
+            ['--module', 'M', InputOption::VALUE_REQUIRED, 'Module to create the component.'],
+        ];
     }
 }
