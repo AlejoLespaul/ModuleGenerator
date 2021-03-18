@@ -138,4 +138,47 @@ class MakeControllerForModule extends ControllerMakeCommand
         );
     }
 
+
+
+    /**
+     * Get the fully-qualified model class name.
+     *
+     * @param  string  $model
+     * @return string
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function getModelClass($model)
+    {
+        $str = str_replace("/", "\\", $this->option("module")) . "\\Model\\" . $model;
+        return $str;
+    }
+
+    protected function buildModelReplacements(array $replace): array
+    {
+        $modelClass = $this->getModelClass($this->option('model'));
+
+        if (! class_exists($modelClass)) {
+            if ($this->confirm("A {$modelClass} model does not exist. Do you want to generate it?", true)) {
+                $this->call('module:model', [
+                    'name' => $this->option('model'),
+                    '--module' => $this->option("module")
+                ]);
+            }
+        }
+
+        return array_merge($replace, [
+            'DummyFullModelClass' => $modelClass,
+            '{{ namespacedModel }}' => $modelClass,
+            '{{namespacedModel}}' => $modelClass,
+            'DummyModelClass' => class_basename($modelClass),
+            '{{ model }}' => class_basename($modelClass),
+            '{{model}}' => class_basename($modelClass),
+            'DummyModelVariable' => lcfirst(class_basename($modelClass)),
+            '{{ modelVariable }}' => lcfirst(class_basename($modelClass)),
+            '{{modelVariable}}' => lcfirst(class_basename($modelClass)),
+        ]);
+    }
+
+
 }

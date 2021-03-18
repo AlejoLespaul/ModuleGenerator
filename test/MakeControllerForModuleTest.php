@@ -14,9 +14,10 @@ class MakeControllerForModuleTest extends TestCase
     /**
      * @tearDown
      */
-    public function tearDown() : void {
+    public function tearDown(): void
+    {
         $utils = new TestUtils();
-        if(file_exists($this->workdir . "/modules"))
+        if (file_exists($this->workdir . "/modules"))
             $utils->deleteDir($this->workdir . "/modules");
     }
 
@@ -27,7 +28,7 @@ class MakeControllerForModuleTest extends TestCase
         $module = "Test";
         $this->artisan("module:controller", [
             "name" => $name,
-            "--module" => $module
+            "--module" => $module,
         ])->expectsOutput("TestController created");
 
         $this->assertFileExists($this->workdir . "/modules/Test/Controller/TestController.php");
@@ -53,12 +54,29 @@ class MakeControllerForModuleTest extends TestCase
      */
     public function module_option_is_required()
     {
-        $this->artisan("module:controller",[
+        $this->artisan("module:controller", [
             "name" => "TestController",
         ])->expectsOutput(Constants::MODULE_OPTION_REQUIRED);
 
         $this->assertFileDoesNotExist($this->workdir . "/modules/Controller/TestController.php");
     }
 
+    /**
+     * A basic feature test example.
+     * @test
+     * @return void
+     *
+     */
+    public function can_create_controller_with_model()
+    {
+        $this->artisan("module:controller", [
+            "name" => "TestController",
+            "--module" => "Test",
+            "--model" => "TestModel"
+        ])->expectsConfirmation("A Test\Model\TestModel model does not exist. Do you want to generate it?","yes");
 
+        $this->assertFileExists($this->workdir . "/modules/Test/Controller/TestController.php");
+        $this->assertFileExists($this->workdir . "/modules/Test/Model/TestModel.php");
+    }
+    
 }
