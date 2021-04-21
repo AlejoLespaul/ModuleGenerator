@@ -64,7 +64,6 @@ class MakeMigrationForModule extends GeneratorCommand
             $options["--path"] = $path;
         }
 
-
         if($this->option("table")){
             $options["--table"] = $this->option("table");
         }
@@ -82,6 +81,12 @@ class MakeMigrationForModule extends GeneratorCommand
         $this->call("make:migration", $options);
 
         $this->info("{$name} migration created");
+        $this->comment("Register migrations in boot method provider");
+        $this->comment("public function boot()".PHP_EOL.
+        "{".PHP_EOL.
+        "\t...".PHP_EOL.
+        "\t\$this->loadMigrationsFrom(__DIR__.'/../database/migrations');".PHP_EOL.
+        "}");
     }
 
     /**

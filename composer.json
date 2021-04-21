@@ -2,7 +2,7 @@
     "name": "alejo-lespaul/module-generator",
     "description": "A Module Generator for Laravel",
     "type": "library",
-    "version": "1.9",
+    "version": "2.0",
     "require": {
         "laravel/framework": "^8.12",
         "laminas/laminas-config": "^3.6"
