@@ -115,4 +115,24 @@ class MakeModelForModule extends ModelMakeCommand
         ]));
     }
 
+        /**
+     * Create a migration file for the model.
+     *
+     * @return void
+     */
+    protected function createMigration()
+    {
+        $table = Str::snake(Str::pluralStudly(class_basename($this->argument('name'))));
+
+        if ($this->option('pivot')) {
+            $table = Str::singular($table);
+        }
+
+        $this->call('module:migration', [
+            'name' => "create_{$table}_table",
+            '--create' => $table,
+            '--module' => $this->option("module")
+        ]);
+    }
+
 }

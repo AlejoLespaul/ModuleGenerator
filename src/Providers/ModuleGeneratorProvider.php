@@ -5,6 +5,7 @@ namespace ModuleGenerator\Providers;
 use Illuminate\Support\ServiceProvider;
 use ModuleGenerator\Commands\AddModule;
 use ModuleGenerator\Commands\MakeControllerForModule;
+use ModuleGenerator\Commands\MakeMigrationForModule;
 use ModuleGenerator\Commands\MakeModelForModule;
 use ModuleGenerator\Commands\MakeProviderForModule;
 use ModuleGenerator\Commands\MakeRoutesForModule;
@@ -38,7 +39,8 @@ class ModuleGeneratorProvider extends ServiceProvider
                 MakeRoutesForModule::class,
                 MakeTestForModule::class,
                 MakeControllerForModule::class,
-                MakeModelForModule::class
+                MakeModelForModule::class,
+                MakeMigrationForModule::class
             ]);
         }
     }

@@ -4,6 +4,7 @@ namespace ModuleGenerator\Test;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\File;
 use ModuleGenerator\Commands\Constants;
 use Tests\TestCase;
 
@@ -63,5 +64,24 @@ class MakeModelForModuleTest extends TestCase
         ])->expectsOutput(Constants::MODULE_OPTION_REQUIRED);
 
         $this->assertFileDoesNotExist($this->workdir . "/modules/Test/Auth/Model/TestModel.php");
+    }
+
+    /**
+     * A basic feature test example.
+     * @test
+     * @return void
+     */
+    public function can_create_a_model_with_migration()
+    {
+        $this->artisan("module:model", [
+            "name" => "TestModel",
+            "--module" => "Test",
+            "--migration" => "m"
+        ])->expectsOutput("TestModel model created");
+
+        $this->assertFileExists($this->workdir . "/modules/Test/Model/TestModel.php");
+        $files = File::files($this->workdir . "/modules/Test/database/migrations");
+
+        $this->assertEquals(1, count($files));
     }
 }
