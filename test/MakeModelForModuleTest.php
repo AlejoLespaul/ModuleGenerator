@@ -17,8 +17,9 @@ class MakeModelForModuleTest extends TestCase
      */
     public function tearDown() : void {
         $utils = new TestUtils();
-        if(file_exists($this->workdir . "/modules"))
+        if(file_exists($this->workdir . "/modules")){
             $utils->deleteDir($this->workdir . "/modules");
+        }
     }
 
     /**
@@ -100,6 +101,25 @@ class MakeModelForModuleTest extends TestCase
 
         $this->assertFileExists($this->workdir . "/modules/Test/Model/TestModel.php");
         $files = File::files($this->workdir . "/modules/Test/database/seeders");
+
+        $this->assertEquals(1, count($files));
+    }
+
+    /**
+     * A basic feature test example.
+     * @test
+     * @return void
+     */
+    public function can_create_a_model_with_factory()
+    {
+        $this->artisan("module:model", [
+            "name" => "TestModel",
+            "--module" => "Test",
+            "--factory" => "f"
+        ])->expectsOutput("TestModel model created");
+
+        $this->assertFileExists($this->workdir . "/modules/Test/Model/TestModel.php");
+        $files = File::files($this->workdir . "/modules/Test/database/factories");
 
         $this->assertEquals(1, count($files));
     }

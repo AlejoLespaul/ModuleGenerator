@@ -84,6 +84,11 @@ class MakeModelForModule extends ModelMakeCommand
         return $this->rootNamespace() . "\Model";
     }
 
+    protected function getEntityName($name)
+    {
+        return str_replace("\\", "/", $this->rootNamespace() . "\Model\\$name");
+    }
+
     /**
      * Replace the class name for the given stub.
      *
@@ -146,6 +151,22 @@ class MakeModelForModule extends ModelMakeCommand
 
         $this->call('module:seeder', [
             'name' => "{$seeder}Seeder",
+            '--module' => $this->option("module")
+        ]);
+    }
+
+        /**
+     * Create a model factory for the model.
+     *
+     * @return void
+     */
+    protected function createFactory()
+    {
+        $factory = Str::studly($this->argument('name'));
+
+        $this->call('module:factory', [
+            'name' => "{$factory}Factory",
+            '--model' => $this->getEntityName($this->getNameInput()),
             '--module' => $this->option("module")
         ]);
     }
