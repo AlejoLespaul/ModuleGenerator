@@ -135,4 +135,19 @@ class MakeModelForModule extends ModelMakeCommand
         ]);
     }
 
+    /**
+     * Create a seeder file for the model.
+     *
+     * @return void
+     */
+    protected function createSeeder()
+    {
+        $seeder = Str::studly(class_basename($this->argument('name')));
+
+        $this->call('module:seeder', [
+            'name' => "{$seeder}Seeder",
+            '--module' => $this->option("module")
+        ]);
+    }
+
 }

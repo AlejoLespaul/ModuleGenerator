@@ -10,6 +10,7 @@ use ModuleGenerator\Commands\MakeModelForModule;
 use ModuleGenerator\Commands\MakeProviderForModule;
 use ModuleGenerator\Commands\MakeRoutesForModule;
 use ModuleGenerator\Commands\MakeTestForModule;
+use ModuleGenerator\Commands\MakeSeederForModule;
 
 class ModuleGeneratorProvider extends ServiceProvider
 {
@@ -40,7 +41,8 @@ class ModuleGeneratorProvider extends ServiceProvider
                 MakeTestForModule::class,
                 MakeControllerForModule::class,
                 MakeModelForModule::class,
-                MakeMigrationForModule::class
+                MakeMigrationForModule::class,
+                MakeSeederForModule::class
             ]);
         }
     }

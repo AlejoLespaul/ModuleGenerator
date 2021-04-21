@@ -84,4 +84,23 @@ class MakeModelForModuleTest extends TestCase
 
         $this->assertEquals(1, count($files));
     }
+
+    /**
+     * A basic feature test example.
+     * @test
+     * @return void
+     */
+    public function can_create_a_model_with_seeder()
+    {
+        $this->artisan("module:model", [
+            "name" => "TestModel",
+            "--module" => "Test",
+            "--seed" => "s"
+        ])->expectsOutput("TestModel model created");
+
+        $this->assertFileExists($this->workdir . "/modules/Test/Model/TestModel.php");
+        $files = File::files($this->workdir . "/modules/Test/database/seeders");
+
+        $this->assertEquals(1, count($files));
+    }
 }
