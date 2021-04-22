@@ -2,8 +2,6 @@
 
 namespace ModuleGenerator\Test;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\File;
 use ModuleGenerator\Commands\Constants;
 use Tests\TestCase;

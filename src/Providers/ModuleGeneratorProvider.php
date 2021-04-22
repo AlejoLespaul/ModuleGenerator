@@ -4,6 +4,7 @@ namespace ModuleGenerator\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use ModuleGenerator\Commands\AddModule;
+use ModuleGenerator\Commands\MakeCommandForModule;
 use ModuleGenerator\Commands\MakeControllerForModule;
 use ModuleGenerator\Commands\MakeFactoryForModule;
 use ModuleGenerator\Commands\MakeMiddlewareForModule;
@@ -48,7 +49,8 @@ class ModuleGeneratorProvider extends ServiceProvider
                 MakeSeederForModule::class,
                 MakeFactoryForModule::class,
                 MakePolicyForModule::class,
-                MakeMiddlewareForModule::class
+                MakeMiddlewareForModule::class,
+                MakeCommandForModule::class
             ]);
         }
     }
