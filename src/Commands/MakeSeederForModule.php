@@ -15,13 +15,6 @@ class MakeSeederForModule extends SeederMakeCommand
     protected $name = 'module:seeder';
 
     /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Make a seeder for module.';
-
-    /**
      * Execute the console command.
      *
      * @return int

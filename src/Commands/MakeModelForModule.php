@@ -16,13 +16,6 @@ class MakeModelForModule extends ModelMakeCommand
      */
     protected $name = 'module:model';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Create model for module.';
-
 
     /**
      * Execute the console command.

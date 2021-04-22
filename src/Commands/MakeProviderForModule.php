@@ -20,13 +20,6 @@ class MakeProviderForModule extends ProviderMakeCommand
     protected $name = 'module:provider';
 
     /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Create provider for module';
-
-    /**
      * Get the default namespace for the class.
      *
      * @param string $rootNamespace

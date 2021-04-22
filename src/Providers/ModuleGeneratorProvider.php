@@ -6,8 +6,10 @@ use Illuminate\Support\ServiceProvider;
 use ModuleGenerator\Commands\AddModule;
 use ModuleGenerator\Commands\MakeControllerForModule;
 use ModuleGenerator\Commands\MakeFactoryForModule;
+use ModuleGenerator\Commands\MakeMiddlewareForModule;
 use ModuleGenerator\Commands\MakeMigrationForModule;
 use ModuleGenerator\Commands\MakeModelForModule;
+use ModuleGenerator\Commands\MakePolicyForModule;
 use ModuleGenerator\Commands\MakeProviderForModule;
 use ModuleGenerator\Commands\MakeRoutesForModule;
 use ModuleGenerator\Commands\MakeTestForModule;
@@ -44,7 +46,9 @@ class ModuleGeneratorProvider extends ServiceProvider
                 MakeModelForModule::class,
                 MakeMigrationForModule::class,
                 MakeSeederForModule::class,
-                MakeFactoryForModule::class
+                MakeFactoryForModule::class,
+                MakePolicyForModule::class,
+                MakeMiddlewareForModule::class
             ]);
         }
     }

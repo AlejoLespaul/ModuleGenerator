@@ -16,12 +16,6 @@ class MakeControllerForModule extends ControllerMakeCommand
      */
     protected $name = 'module:controller';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Command description';
 
     /**
      * Execute the console command.
